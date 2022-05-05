@@ -13,3 +13,5 @@ assert Bin(2, 0.5, 0.50) == 'N must be a natural number'
 assert Bin(5, 10, 0.5) == 0.2461
 assert Bin(5, 1000, 0.05) == 0
 assert Bin(1, 10, 0.4) == 0.0403
+assert Bin(88, 89, 0.89) == 0.0003
+

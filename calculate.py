@@ -21,6 +21,8 @@ def graph_Bin(n, p):
     x_axis = []
     y_axis = []
     i = 0
+    if isinstance(Bin(i, n, p), str):
+        return Bin(i, n, p)
     while Bin(i, n, p) < 0:
         i += 1
     x_axis.append(i)
@@ -41,12 +43,15 @@ def graph_Bin(n, p):
 # x = trial in which you get r(th) success
 # p = p(success)
 def NB(x, r, p):
-    if p == 1:
-        return 1
+    if r < 0 or r - int(r) != 0:
+        return 'r must be a natural number'
+    if x not in range(r):
+        return 'Error: x < r'
+    if p > 1 or p < 0:
+        return '0 <= p <= 1'
     return pow(p, r) * pow(1 - p, x - r) * (factorial(x - 1) / (factorial(r - 1) * factorial(x - r)))
 
 
-# BUG DEALING WITH P=1
 def graph_NB(r, p):
     # create dataset
     x_axis = []
@@ -72,6 +77,8 @@ def graph_NB(r, p):
 # x = # of occurrences of an event in an interval
 # expected_x = # of expected occurrences of an event in an interval
 def Pois(x, expected_x):
+    if expected_x < 0 or expected_x > 105:
+        return 'Error: 0 <= expected_x <= 105'
     return (pow(e, -expected_x) * pow(expected_x, x)) / factorial(x)
 
 
@@ -80,6 +87,8 @@ def graph_Pois(expected_mean):
     x_axis = []
     y_axis = []
     i = 0
+    if isinstance(Pois(i, expected_mean), str):
+        return Pois(i, expected_mean)
     while Pois(i, expected_mean) < 0.00001:
         i += 1
     x_axis.append(i)
@@ -95,3 +104,5 @@ def graph_Pois(expected_mean):
     plt.title('Poisson Distribution\nExpected mean: {}'.format(expected_mean))
     mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
+
+
