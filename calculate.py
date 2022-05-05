@@ -43,7 +43,7 @@ def NB(x, r, p):
     return pow(p, r) * pow(1 - p, x - r) * (factorial(x - 1) / (factorial(r - 1) * factorial(x - r)))
 
 
-# specifications:
+# specification: High values of r and low values of p will cause mass inefficiency
 def graph_NB(r, p):
     # create dataset
     x_axis = []
@@ -53,9 +53,15 @@ def graph_NB(r, p):
         i += 1
     x_axis.append(i)
     y_axis.append(NB(i, r, p))
-    # IF P is extremely small, allow a larger threshold of values to be displayed
-    # if p is an ordinary input, make the threshold smaller
-    while NB(i, r, p) > 10e-20:
+    # IF P is tiny and/or R is large, allow a larger threshold of values to be displayed
+    # if P and R are ordinary inputs, make the threshold smaller
+    if p < 0.1 and r > 10:
+        threshold = 10e-22
+    elif p < 0.1 or r > 10:
+        threshold = 10e-16
+    else:
+        threshold = 10e-12
+    while NB(i, r, p) > threshold:
         i += 1
         x_axis.append(i)
         y_axis.append(NB(i, r, p))
@@ -71,18 +77,17 @@ def graph_NB(r, p):
 # x = # of occurrences of an event in an interval
 # expected_x = # of expected occurrences of an event in an interval
 def Pois(x, expected_x):
-    if expected_x < 0 or expected_x > 105:
-        return 'Error: 0 <= expected_x <= 105'
     return (pow(e, -expected_x) * pow(expected_x, x)) / factorial(x)
 
 
+# specification: 0 <= expected_mean <= 105
 def graph_Pois(expected_mean):
+    if expected_mean < 0 or expected_mean > 105:
+        return
     # create dataset
     x_axis = []
     y_axis = []
     i = 0
-    if isinstance(Pois(i, expected_mean), str):
-        return Pois(i, expected_mean)
     while Pois(i, expected_mean) < 0.00001:
         i += 1
     x_axis.append(i)
@@ -100,4 +105,4 @@ def graph_Pois(expected_mean):
     plt.show()
 
 
-graph_NB(15, 0.05)
+graph_Pois(25)
