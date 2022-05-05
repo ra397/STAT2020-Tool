@@ -22,7 +22,6 @@ def graph_Bin(n, p):
     i = 0
     while Bin(i, n, p) <= 0:
         i += 1
-    print(i)
     x_axis.append(i)
     y_axis.append(Bin(i, n, p))
     while n - i >= 1 and Bin(i, n, p) > 0:
@@ -41,28 +40,25 @@ def graph_Bin(n, p):
 # x = trial in which you get r(th) success
 # p = p(success)
 def NB(x, r, p):
-    if r < 0 or r - int(r) != 0:
-        return 'r must be a natural number'
-    if x not in range(r):
-        return 'Error: x < r'
-    if p > 1 or p < 0:
-        return '0 <= p <= 1'
     return pow(p, r) * pow(1 - p, x - r) * (factorial(x - 1) / (factorial(r - 1) * factorial(x - r)))
 
 
+# specifications:
 def graph_NB(r, p):
     # create dataset
     x_axis = []
     y_axis = []
-    i = r + 1
-    while NB(i, r, p) < 0.00001:
+    i = r
+    while NB(i, r, p) < 0:
         i += 1
     x_axis.append(i)
     y_axis.append(NB(i, r, p))
-    while NB(i, r, p) > 0.01:
+    # IF P is extremely small, allow a larger threshold of values to be displayed
+    # if p is an ordinary input, make the threshold smaller
+    while NB(i, r, p) > 10e-20:
+        i += 1
         x_axis.append(i)
         y_axis.append(NB(i, r, p))
-        i += 1
     # graph dataset
     plt.bar(x_axis, y_axis, color='blue', width=0.4)
     plt.xlabel('x (trail in which you get rth success)')
@@ -104,3 +100,4 @@ def graph_Pois(expected_mean):
     plt.show()
 
 
+graph_NB(15, 0.05)
