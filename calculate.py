@@ -16,7 +16,7 @@ def graph_Bin(n, p):
     x_axis = []
     y_axis = []
     for i in range(n):
-        if Bin(i, n, p) != 0:
+        if Bin(i, n, p) > 0.0001:
             x_axis.append(i)
             y_axis.append(Bin(i, n, p))
     # graph dataset
@@ -72,3 +72,6 @@ def graph_Pois(expected_mean):
     plt.title('Negative Binomial Distribution\nExpected mean: {}'.format(expected_mean))
     mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
+
+
+graph_Bin(15, 0.32)
