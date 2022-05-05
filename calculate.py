@@ -7,30 +7,28 @@ import mplcursors
 # n = # of trials
 # p = p(success)
 def Bin(x, n, p):
-    if n < 0 or n - int(n) != 0:
-        return 'N must be a natural number'
-    if x not in range(n):
-        return 'X must be 0, 1, ..., n'
-    if p > 1 or p < 0:
-        return '0 <= p <= 1'
     return float(format(pow(p, x) * pow(1 - p, n - x) * (factorial(n) / (factorial(n - x) * factorial(x))), '0.4f'))
 
 
+# specifications: n must be 1-500, p must be 0-1
 def graph_Bin(n, p):
+    if n not in range(1, 501):
+        return
+    if p < 0 or p > 1:
+        return
     # create dataset
     x_axis = []
     y_axis = []
     i = 0
-    if isinstance(Bin(i, n, p), str):
-        return Bin(i, n, p)
-    while Bin(i, n, p) < 0:
+    while Bin(i, n, p) <= 0:
         i += 1
+    print(i)
     x_axis.append(i)
     y_axis.append(Bin(i, n, p))
-    while n - i >= 0 and Bin(i, n, p) > 0.0001:
+    while n - i >= 1 and Bin(i, n, p) > 0:
+        i += 1
         x_axis.append(i)
         y_axis.append(Bin(i, n, p))
-        i += 1
     # create graph
     plt.bar(x_axis, y_axis, color='blue', width=0.4)
     plt.xlabel('x (# of successes)')
@@ -105,4 +103,4 @@ def graph_Pois(expected_mean):
     mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
-    
+
