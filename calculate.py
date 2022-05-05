@@ -105,4 +105,4 @@ def graph_Pois(expected_mean):
     mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
-
+    
