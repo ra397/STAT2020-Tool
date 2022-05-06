@@ -1,6 +1,9 @@
+import math
 from math import e, factorial
 import matplotlib.pyplot as plt
 import mplcursors
+import numpy as np
+import scipy.stats as stats
 
 
 # x = # of successes
@@ -105,4 +108,30 @@ def graph_Pois(expected_mean):
     plt.show()
 
 
-graph_Pois(25)
+def exponential(x, mean):
+    return mean * pow(math.e, -mean * x)
+
+
+def graph_exponential(mean):
+    # Based on mean, find the closest integer number i where function will = 0
+    i = 0
+    while exponential(i, mean) > 0.0001:
+        i += 1
+    # create dataset
+    x = np.linspace(0, i)
+    plt.plot(x, exponential(x, mean))
+    plt.xlabel('x')
+    plt.ylabel('P(X=x)')
+    plt.title('Exponential function\nrate={}'.format(mean))
+    mplcursors.cursor(hover=True)  # add hover effect
+    plt.show()
+
+
+def graph_normal(mean, variance):
+    sd = math.sqrt(variance)
+    x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
+    plt.plot(x, stats.norm.pdf(x, mean, sd))
+    plt.show()
+
+
+graph_normal(2, 0.5)
