@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Normal Distribution</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+        - numpy
+        - matplotlib
+    </py-env>
+</head>
+<body>
+    <h1>Normal Distribution</h1>
+    <table id="input">
+        <tr>
+            <td>Mean = </td>
+            <td><input type="number"></td>
+
+            <td>Standard Deviation = </td>
+            <td><input type="number"></td>
+
+            <td><button type="submit">Submit</td>
+        </tr>
+    </table>
+    <div id="output"></div>
+    <py-script>
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.random.randn(100)
+y = np.random.randn(100)
+fig, ax = plt.subplots()
+ax.scatter(x, y)
+pyscript.write('output', fig)
+    </py-script>
+</body>
+</html>

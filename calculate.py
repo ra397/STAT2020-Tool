@@ -1,7 +1,5 @@
-import math
-from math import e, factorial
+from math import *
 import matplotlib.pyplot as plt
-import mplcursors
 import numpy as np
 import scipy.stats as stats
 
@@ -36,7 +34,6 @@ def graph_Bin(n, p):
     plt.xlabel('x (# of successes)')
     plt.ylabel('P(X=x)')
     plt.title('Binomial Distribution\nTrials={}\nP(success)={}\n'.format(n, p))
-    mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
 
@@ -73,7 +70,6 @@ def graph_NB(r, p):
     plt.xlabel('x (trail in which you get rth success)')
     plt.ylabel('P(X=x)')
     plt.title('Negative Binomial Distribution\nr={}\nP(success)={}'.format(r, p))
-    mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
 
@@ -104,7 +100,6 @@ def graph_Pois(expected_mean):
     plt.xlabel('x (number of occurrences)')
     plt.ylabel('P(X=x)')
     plt.title('Poisson Distribution\nExpected mean: {}'.format(expected_mean))
-    mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
 
@@ -123,15 +118,19 @@ def graph_exponential(mean):
     plt.xlabel('x')
     plt.ylabel('P(X=x)')
     plt.title('Exponential function\nrate={}'.format(mean))
-    mplcursors.cursor(hover=True)  # add hover effect
     plt.show()
 
 
 def graph_normal(mean, variance):
-    sd = math.sqrt(variance)
+    sd = sqrt(variance)
+    # x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
+    # plt.plot(x, stats.norm.pdf(x, mean, sd))
+    # plt.show()
     x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
-    plt.plot(x, stats.norm.pdf(x, mean, sd))
-    plt.show()
+    y = np.sin(x)
+    fig, ax = plt.subplots()
+    # ax.plot(x, y)
+    return fig
 
 
-graph_normal(2, 0.5)
+print(type(graph_normal(0, 1)))
