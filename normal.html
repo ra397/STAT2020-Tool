@@ -22,7 +22,7 @@
             <td><button type="submit">Submit</td>
         </tr>
     </table>
-    <div id="output"></div>
+    <div id="plot"></div>
     <py-script>
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,7 +31,7 @@ x = np.random.randn(100)
 y = np.random.randn(100)
 fig, ax = plt.subplots()
 ax.scatter(x, y)
-pyscript.write('output', fig)
+pyscript.write('plot', fig)
     </py-script>
 </body>
 </html>

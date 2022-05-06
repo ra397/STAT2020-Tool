@@ -123,14 +123,6 @@ def graph_exponential(mean):
 
 def graph_normal(mean, variance):
     sd = sqrt(variance)
-    # x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
-    # plt.plot(x, stats.norm.pdf(x, mean, sd))
-    # plt.show()
     x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
-    y = np.sin(x)
-    fig, ax = plt.subplots()
-    # ax.plot(x, y)
-    return fig
-
-
-print(type(graph_normal(0, 1)))
+    plt.plot(x, stats.norm.pdf(x, mean, sd))
+    plt.show()
