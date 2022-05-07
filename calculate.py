@@ -104,7 +104,7 @@ def graph_Pois(expected_mean):
 
 
 def exponential(x, mean):
-    return mean * pow(math.e, -mean * x)
+    return mean * pow(e, -mean * x)
 
 
 def graph_exponential(mean):
@@ -121,14 +121,20 @@ def graph_exponential(mean):
     plt.show()
 
 
-def graph_normal(mean, variance):
+def graph_normal(mean, variance, critical_point, left=True):
     sd = sqrt(variance)
     x = np.linspace(mean + (-3 * sd), mean + (3 * sd))
     y = stats.norm.pdf(x, mean, sd)
     fig, ax = plt.subplots()
     ax.plot(x, y)
+    if left is True:
+        x_fill = np.linspace(mean + (-3*sd), critical_point)
+        plt.fill_between(x_fill, stats.norm.pdf(x_fill, mean, sd))
+    else:
+        x_fill = np.linspace(critical_point, mean+(3*sd))
+        plt.fill_between(x_fill, stats.norm.pdf(x_fill, mean, sd))
     plt.show()
     return fig
 
 
-graph_normal(1000, 26561)
+graph_normal(1000, 26561, 1000, left=False)
