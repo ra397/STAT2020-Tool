@@ -22,6 +22,7 @@ class normalDist(Page):
         Page.__init__(self, *args, **kwargs)
         self.input_mean = None  # entry widget that holds mean value
         self.input_sd = None  # entry widget that hold standard deviation
+        self.rb_var = tk.IntVar()
         self.create_widgets()
 
     def create_widgets(self):
@@ -49,12 +50,11 @@ class normalDist(Page):
         rb_frame = tk.Frame(self)
         rb_frame.pack(side="top")
 
-        var = tk.IntVar()
-
-        rb1 = tk.Radiobutton(rb_frame, text='Area to the left', variable=var, value=1)
+        rb1 = tk.Radiobutton(rb_frame, text='Area to the left', variable=self.rb_var, value=1)
+        rb1.select()
         rb1.pack(side="left")
 
-        rb2 = tk.Radiobutton(rb_frame, text='Area to the right', variable=var, value=2)
+        rb2 = tk.Radiobutton(rb_frame, text='Area to the right', variable=self.rb_var, value=2)
         rb2.pack(side="left")
 
         submit_frame = tk.Frame(self)
@@ -66,7 +66,8 @@ class normalDist(Page):
     def make_plot(self):
         mean = self.input_mean.get()
         sd = self.input_sd.get()
-        print(mean, sd)
+        choice = self.rb_var
+
 
 
 class MainView(tk.Frame):
@@ -75,16 +76,16 @@ class MainView(tk.Frame):
         p1 = MainPage(self)
         p2 = normalDist(self)
 
-        buttonframe = tk.Frame(self)
+        page_frame = tk.Frame(self)
         container = tk.Frame(self)
-        buttonframe.pack(side="top", fill="x", expand=False)
+        page_frame.pack(side="top", fill="x", expand=False)
         container.pack(side="top", fill="both", expand=True)
 
         p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        b1 = tk.Button(buttonframe, text="Main Page", command=p1.show)
-        b2 = tk.Button(buttonframe, text="Normal Distribution", command=p2.show)
+        b1 = tk.Button(page_frame, text="Main Page", command=p1.show)
+        b2 = tk.Button(page_frame, text="Normal Distribution", command=p2.show)
 
         b1.pack(side="left")
         b2.pack(side="left")
