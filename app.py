@@ -20,11 +20,42 @@ class MainPage(Page):
 class normalDist(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
-        label = tk.Label(self, text="Normal Distribution", font=20, pady=20)
-        label.pack(side=tk.LEFT)
+        self.input_mean = None  # entry widget that holds mean value
+        self.input_sd = None    # entry widget that hold standard deviation
+        self.create_widgets()
 
+    def create_widgets(self):
+        title_frame = tk.Frame(self)
+        title_frame.pack(side="top", fill="x", expand=False)
 
+        title = tk.Label(title_frame, text="Normal Distribution", font=('Arial', 25), pady=20)
+        title.pack()
 
+        input_frame = tk.Frame(self)
+        input_frame.pack(side="top")
+
+        text_mean = tk.Label(input_frame, text="Mean = ", font=('Arial', 11), padx=10, pady=10)
+        text_mean.pack(side="left")
+
+        self.input_mean = tk.Entry(input_frame)
+        self.input_mean.pack(side="left")
+
+        text_sd = tk.Label(input_frame, text="Standard deviation = ", font=('Arial', 11), padx=10, pady=10)
+        text_sd.pack(side="left")
+
+        self.input_sd = tk.Entry(input_frame)
+        self.input_sd.pack(side="left")
+
+        submit_frame = tk.Frame(self)
+        submit_frame.pack(side="top")
+
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot)
+        submit_button.pack()
+
+    def make_plot(self):
+        mean = self.input_mean.get()
+        sd = self.input_sd.get()
+        print(mean, sd)
 
 
 class MainView(tk.Frame):
