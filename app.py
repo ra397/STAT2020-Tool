@@ -21,7 +21,8 @@ class normalDist(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
         self.input_mean = None  # entry widget that holds mean value
-        self.input_sd = None  # entry widget that hold standard deviation
+        self.input_sd = None  # entry widget that holds standard deviation
+        self.input_x = None  # Entry widget that holds x value
         self.rb_var = tk.IntVar()
         self.create_widgets()
 
@@ -47,14 +48,20 @@ class normalDist(Page):
         self.input_sd = tk.Entry(input_frame)
         self.input_sd.pack(side="left")
 
+        text_x = tk.Label(input_frame, text='X = ', font=('Arial', 11), padx=10, pady=10)
+        text_x.pack(side="left")
+
+        self.input_x = tk.Entry(input_frame)
+        self.input_x.pack(side="left")
+
         rb_frame = tk.Frame(self)
         rb_frame.pack(side="top")
 
-        rb1 = tk.Radiobutton(rb_frame, text='Area to the left', variable=self.rb_var, value=1)
+        rb1 = tk.Radiobutton(rb_frame, text='Area to the left of X', variable=self.rb_var, value=1)
         rb1.select()
         rb1.pack(side="left")
 
-        rb2 = tk.Radiobutton(rb_frame, text='Area to the right', variable=self.rb_var, value=2)
+        rb2 = tk.Radiobutton(rb_frame, text='Area to the right of X', variable=self.rb_var, value=2)
         rb2.pack(side="left")
 
         submit_frame = tk.Frame(self)
@@ -66,8 +73,8 @@ class normalDist(Page):
     def make_plot(self):
         mean = self.input_mean.get()
         sd = self.input_sd.get()
+        x = self.input_x.get()
         choice = self.rb_var
-
 
 
 class MainView(tk.Frame):
@@ -97,7 +104,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
-    root.wm_geometry("650x650")
+    root.wm_geometry("675x650")
     root.mainloop()
 
 # # The main tkinter window
