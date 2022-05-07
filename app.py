@@ -1,124 +1,61 @@
 import tkinter as tk
-from tkinter import ttk
 
 
-# template used from https://www.geeksforgeeks.org/tkinter-application-to-switch-between-different-page-frames/
-
-class App(tk.Tk):
-
-    # __init__ function for class main page
+class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
-        # __init__ function for class Tk
-        tk.Tk.__init__(self, *args, **kwargs)
+        tk.Frame.__init__(self, *args, **kwargs)
 
+    # lefts frame to the top to display
+    def show(self):
+        self.lift()
+
+
+class MainPage(Page):
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, text="Statistics Visualization Tool")
+        label.pack(side="top", fill="both", expand=True)
+
+
+class normalDist(Page):
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, text="Normal Distribution", font=20, pady=20)
+        label.pack(side=tk.LEFT)
+
+
+
+
+
+class MainView(tk.Frame):
+    def __init__(self, *args, **kwargs):
+        tk.Frame.__init__(self, *args, **kwargs)
+        p1 = MainPage(self)
+        p2 = normalDist(self)
+
+        buttonframe = tk.Frame(self)
         container = tk.Frame(self)
+        buttonframe.pack(side="top", fill="x", expand=False)
         container.pack(side="top", fill="both", expand=True)
 
-        container.grid_columnconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        # initializing frames to an empty array
-        self.frames = {}
+        b1 = tk.Button(buttonframe, text="Main Page", command=p1.show)
+        b2 = tk.Button(buttonframe, text="Normal Distribution", command=p2.show)
 
-        # fill frames with
-        for F in (StartPage, Page1, Page2):
-            frame = F(parent=container, controller=self)
-            self.frames[F] = frame
+        b1.pack(side="left")
+        b2.pack(side="left")
 
-            frame.grid(row=0, column=0, sticky="nsew")
-
-        self.show_frame(StartPage)  # Show the main page first
-
-    # to display the current frame passed as
-    # parameter
-    def show_frame(self, cont):
-        frame = self.frames[cont]
-        frame.tkraise()
+        p1.show()
 
 
-# first window frame displayed
-class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-
-        # label of frame Layout 2
-        label = ttk.Label(self, text="Statistics Calculator", font=12)
-
-        # putting the grid in its place by using
-        label.grid(row=0, column=1, padx=10, pady=10)
-
-        button1 = ttk.Button(self, text="Discrete Distributions",
-                             command=lambda: controller.show_frame(Page1))
-
-        # putting the button in its place by
-        # using grid
-        button1.grid(row=1, column=1, padx=10, pady=10)
-
-        # button to show frame 2 with text layout2
-        button2 = ttk.Button(self, text="Continuous Distributions",
-                             command=lambda: controller.show_frame(Page2))
-
-        # putting the button in its place by
-        # using grid
-        button2.grid(row=1, column=2, padx=10, pady=10)
-
-
-# second window frame page1
-class Page1(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="Discrete Distributions", font=12)
-        label.grid(row=0, column=4, padx=10, pady=10)
-
-        # button to show frame 2 with text
-        # layout2
-        button1 = ttk.Button(self, text="Main Page",
-                             command=lambda: controller.show_frame(StartPage))
-
-        # putting the button in its place
-        # by using grid
-        button1.grid(row=1, column=1, padx=10, pady=10)
-
-        # button to show frame 2 with text
-        # layout2
-        button2 = ttk.Button(self, text="Continuous Distributions",
-                             command=lambda: controller.show_frame(Page2))
-
-        # putting the button in its place by
-        # using grid
-        button2.grid(row=2, column=1, padx=10, pady=10)
-
-
-# third window frame page2
-class Page2(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="Continuous Distributions", font=12)
-        label.grid(row=0, column=4, padx=10, pady=10)
-
-        # button to show frame 2 with text
-        # layout2
-        button1 = ttk.Button(self, text="Discrete Distributions",
-                             command=lambda: controller.show_frame(Page1))
-
-        # putting the button in its place by
-        # using grid
-        button1.grid(row=1, column=1, padx=10, pady=10)
-
-        # button to show frame 3 with text
-        # layout3
-        button2 = ttk.Button(self, text="Main Page",
-                             command=lambda: controller.show_frame(StartPage))
-
-        # putting the button in its place by
-        # using grid
-        button2.grid(row=2, column=1, padx=10, pady=10)
-
-
-# Driver Code
-app = App()
-app.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    main = MainView(root)
+    main.pack(side="top", fill="both", expand=True)
+    root.wm_geometry("650x650")
+    root.mainloop()
 
 # # The main tkinter window
 # window = Tk()
