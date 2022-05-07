@@ -127,5 +127,8 @@ def graph_normal(mean, variance):
     y = stats.norm.pdf(x, mean, sd)
     fig, ax = plt.subplots()
     ax.plot(x, y)
+    plt.show()
     return fig
 
+
+graph_normal(1000, 26561)

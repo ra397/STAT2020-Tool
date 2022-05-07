@@ -21,7 +21,7 @@ class normalDist(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
         self.input_mean = None  # entry widget that holds mean value
-        self.input_sd = None    # entry widget that hold standard deviation
+        self.input_sd = None  # entry widget that hold standard deviation
         self.create_widgets()
 
     def create_widgets(self):
@@ -45,6 +45,17 @@ class normalDist(Page):
 
         self.input_sd = tk.Entry(input_frame)
         self.input_sd.pack(side="left")
+
+        rb_frame = tk.Frame(self)
+        rb_frame.pack(side="top")
+
+        var = tk.IntVar()
+
+        rb1 = tk.Radiobutton(rb_frame, text='Area to the left', variable=var, value=1)
+        rb1.pack(side="left")
+
+        rb2 = tk.Radiobutton(rb_frame, text='Area to the right', variable=var, value=2)
+        rb2.pack(side="left")
 
         submit_frame = tk.Frame(self)
         submit_frame.pack(side="top")
