@@ -1,6 +1,5 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 from calculate import *
 
 
@@ -180,7 +179,7 @@ class nbDist(Page):
         title_frame = tk.Frame(self)
         title_frame.pack(side="top", fill="x", expand=False)
 
-        title = tk.Label(title_frame, text="Negative Biniomial Distribution", font=('Arial', 22), pady=20)
+        title = tk.Label(title_frame, text="Negative Binomial Distribution", font=('Arial', 22), pady=20)
         title.pack()
 
         input_frame = tk.Frame(self)
@@ -197,6 +196,13 @@ class nbDist(Page):
 
         self.input_p = tk.Entry(input_frame)
         self.input_p.pack(side="left")
+
+        warning_frame = tk.Frame(self)
+        warning_frame.pack(side="top")
+
+        warning_text = tk.Label(warning_frame, text='*Warning: Extremely high values for R and/or low values for P can '
+                                                    'cause application to freeze', fg='red')
+        warning_text.pack()
 
         submit_frame = tk.Frame(self)
         submit_frame.pack(side="top")

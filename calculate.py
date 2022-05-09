@@ -62,7 +62,7 @@ def graph_NB(r, p):
     elif p < 0.1 or r > 10:
         threshold = 10e-16
     else:
-        threshold = 10e-12
+        threshold = 10e-6
     while NB(i, r, p) > threshold:
         i += 1
         x_axis.append(i)
