@@ -235,6 +235,28 @@ class nbDist(Page):
         self.first_plot = False
 
 
+class poisDist(Page):
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+
+    def create_widgets(self):
+        return
+
+    def make_plot(self):
+        return
+
+
+class expoDist(Page):
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+
+    def create_widgets(self):
+        return
+
+    def make_plot(self):
+        return
+
+
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
@@ -242,6 +264,8 @@ class MainView(tk.Frame):
         p2 = normalDist(self)
         p3 = binDist(self)
         p4 = nbDist(self)
+        p5 = poisDist(self)
+        p6 = expoDist(self)
 
         page_frame = tk.Frame(self)
         container = tk.Frame(self)
@@ -252,16 +276,24 @@ class MainView(tk.Frame):
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p5.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p6.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         b1 = tk.Button(page_frame, text="Main Page", command=p1.show)
         b2 = tk.Button(page_frame, text="Normal Distribution", command=p2.show)
         b3 = tk.Button(page_frame, text="Binomial Distribution", command=p3.show)
         b4 = tk.Button(page_frame, text="Negative Binomial Distribution", command=p4.show)
+        b5 = tk.Button(page_frame, text="Poisson Distribution", command=p5.show)
+        b6 = tk.Button(page_frame, text="Exponential Distribution", command=p6.show)
+        exit_button = tk.Button(page_frame, text="Exit", command=root.destroy)
 
         b1.pack(side="left")
         b2.pack(side="left")
         b3.pack(side="left")
         b4.pack(side="left")
+        b5.pack(side="left")
+        b6.pack(side="left")
+        exit_button.pack(side="right")
 
         p1.show()
 
@@ -270,5 +302,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
-    root.wm_geometry("675x650")
+    root.attributes("-fullscreen", True)
     root.mainloop()

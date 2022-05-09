@@ -82,6 +82,7 @@ def Pois(x, expected_x):
 
 # specification: 0 <= expected_mean <= 105
 def graph_Pois(expected_mean):
+    fig = plt.figure()
     if expected_mean < 0 or expected_mean > 105:
         return
     # create dataset
@@ -100,8 +101,7 @@ def graph_Pois(expected_mean):
     plt.bar(x_axis, y_axis, color='blue', width=0.4)
     plt.xlabel('x (number of occurrences)')
     plt.ylabel('P(X=x)')
-    plt.title('Poisson Distribution\nExpected mean: {}'.format(expected_mean))
-    plt.show()
+    return fig
 
 
 def exponential(x, mean):
@@ -109,6 +109,7 @@ def exponential(x, mean):
 
 
 def graph_exponential(mean):
+    fig = plt.figure()
     # Based on mean, find the closest integer number i where function will = 0
     i = 0
     while exponential(i, mean) > 0.0001:
@@ -118,8 +119,7 @@ def graph_exponential(mean):
     plt.plot(x, exponential(x, mean))
     plt.xlabel('x')
     plt.ylabel('P(X=x)')
-    plt.title('Exponential function\nrate={}'.format(mean))
-    plt.show()
+    return fig
 
 
 def graph_normal(mean, variance, critical_point, left=True):
