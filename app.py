@@ -167,12 +167,75 @@ class binDist(Page):
         self.first_plot = False
 
 
+class nbDist(Page):
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        self.input_r = None
+        self.input_p = None
+        self.first_plot = True
+        self.plot_frame = None
+        self.create_widgets()
+
+    def create_widgets(self):
+        title_frame = tk.Frame(self)
+        title_frame.pack(side="top", fill="x", expand=False)
+
+        title = tk.Label(title_frame, text="Negative Biniomial Distribution", font=('Arial', 22), pady=20)
+        title.pack()
+
+        input_frame = tk.Frame(self)
+        input_frame.pack(side="top")
+
+        text_r = tk.Label(input_frame, text="R = ", font=('Arial', 11), padx=10, pady=10)
+        text_r.pack(side="left")
+
+        self.input_r = tk.Entry(input_frame)
+        self.input_r.pack(side="left")
+
+        text_p = tk.Label(input_frame, text="P = ", font=('Arial', 11), padx=10, pady=10)
+        text_p.pack(side="left")
+
+        self.input_p = tk.Entry(input_frame)
+        self.input_p.pack(side="left")
+
+        submit_frame = tk.Frame(self)
+        submit_frame.pack(side="top")
+
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot)
+        submit_button.pack()
+
+    def make_plot(self):
+        r = float(self.input_r.get())
+        p = float(self.input_p.get())
+
+        figure = graph_NB(r, p)
+
+        if not self.first_plot:
+            self.plot_frame.pack_forget()
+
+        self.plot_frame = tk.Frame(self)
+        self.plot_frame.pack(side='top')
+
+        # creating the Tkinter canvas containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(figure,
+                                   master=self.plot_frame)
+        canvas.draw()
+
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+        if self.first_plot:
+            canvas.get_tk_widget().pack()
+        self.first_plot = False
+
+
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         p1 = MainPage(self)
         p2 = normalDist(self)
         p3 = binDist(self)
+        p4 = nbDist(self)
 
         page_frame = tk.Frame(self)
         container = tk.Frame(self)
@@ -182,14 +245,17 @@ class MainView(tk.Frame):
         p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         b1 = tk.Button(page_frame, text="Main Page", command=p1.show)
         b2 = tk.Button(page_frame, text="Normal Distribution", command=p2.show)
-        b3 = tk.Button(page_frame, text="Binomial Distributions", command=p3.show)
+        b3 = tk.Button(page_frame, text="Binomial Distribution", command=p3.show)
+        b4 = tk.Button(page_frame, text="Negative Binomial Distribution", command=p4.show)
 
         b1.pack(side="left")
         b2.pack(side="left")
         b3.pack(side="left")
+        b4.pack(side="left")
 
         p1.show()
 

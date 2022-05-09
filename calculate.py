@@ -45,6 +45,8 @@ def NB(x, r, p):
 
 # specification: High values of r and low values of p will cause mass inefficiency
 def graph_NB(r, p):
+    fig = plt.figure()
+
     # create dataset
     x_axis = []
     y_axis = []
@@ -69,8 +71,7 @@ def graph_NB(r, p):
     plt.bar(x_axis, y_axis, color='blue', width=0.4)
     plt.xlabel('x (trail in which you get rth success)')
     plt.ylabel('P(X=x)')
-    plt.title('Negative Binomial Distribution\nr={}\nP(success)={}'.format(r, p))
-    plt.show()
+    return fig
 
 
 # x = # of occurrences of an event in an interval
