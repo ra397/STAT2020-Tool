@@ -13,6 +13,7 @@ def Bin(x, n, p):
 
 # specifications: n must be 1-500, p must be 0-1
 def graph_Bin(n, p):
+    fig = plt.figure()
     if n not in range(1, 501):
         return
     if p < 0 or p > 1:
@@ -33,8 +34,7 @@ def graph_Bin(n, p):
     plt.bar(x_axis, y_axis, color='blue', width=0.4)
     plt.xlabel('x (# of successes)')
     plt.ylabel('P(X=x)')
-    plt.title('Binomial Distribution\nTrials={}\nP(success)={}\n'.format(n, p))
-    plt.show()
+    return fig
 
 
 # x = trial in which you get r(th) success
@@ -128,13 +128,14 @@ def graph_normal(mean, variance, critical_point, left=True):
     fig, ax = plt.subplots()
     ax.plot(x, y)
     if left is True:
-        x_fill = np.linspace(mean + (-3*sd), critical_point)
+        x_fill = np.linspace(mean + (-3 * sd), critical_point)
         plt.fill_between(x_fill, stats.norm.pdf(x_fill, mean, sd))
     else:
-        x_fill = np.linspace(critical_point, mean+(3*sd))
+        x_fill = np.linspace(critical_point, mean + (3 * sd))
         plt.fill_between(x_fill, stats.norm.pdf(x_fill, mean, sd))
     plt.xlabel('x')
     plt.ylabel('P(X = x)')
     return fig
 
 
+graph_Bin(10, 0.5)
