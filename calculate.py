@@ -133,8 +133,8 @@ def graph_normal(mean, variance, critical_point, left=True):
     else:
         x_fill = np.linspace(critical_point, mean+(3*sd))
         plt.fill_between(x_fill, stats.norm.pdf(x_fill, mean, sd))
-    plt.show()
+    plt.xlabel('x')
+    plt.ylabel('P(X = x)')
     return fig
 
 
-graph_normal(1000, 26561, 1000, left=False)

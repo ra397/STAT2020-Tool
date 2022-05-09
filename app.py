@@ -1,11 +1,14 @@
 import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from calculate import *
 
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
 
-    # lefts frame to the top to display
+    # moves frame to the top to display
     def show(self):
         self.lift()
 
@@ -23,14 +26,16 @@ class normalDist(Page):
         self.input_mean = None  # entry widget that holds mean value
         self.input_sd = None  # entry widget that holds standard deviation
         self.input_x = None  # Entry widget that holds x value
-        self.rb_var = tk.IntVar()
+        self.rb_var = tk.IntVar()  # radio button variable
+        self.plot_frame = None  # Frame that holds the plot
+        self.first_plot = True
         self.create_widgets()
 
     def create_widgets(self):
         title_frame = tk.Frame(self)
         title_frame.pack(side="top", fill="x", expand=False)
 
-        title = tk.Label(title_frame, text="Normal Distribution", font=('Arial', 25), pady=20)
+        title = tk.Label(title_frame, text="Normal Distribution", font=('Arial', 22), pady=20)
         title.pack()
 
         input_frame = tk.Frame(self)
@@ -71,10 +76,33 @@ class normalDist(Page):
         submit_button.pack()
 
     def make_plot(self):
-        mean = self.input_mean.get()
-        sd = self.input_sd.get()
-        x = self.input_x.get()
-        choice = self.rb_var
+        mean = float(self.input_mean.get())
+        sd = float(self.input_sd.get())
+        x = float(self.input_x.get())
+        if self.rb_var == 0:
+            choice = False
+        else:
+            choice = True
+
+        figure = graph_normal(mean, sd, x, left=choice)
+
+        if not self.first_plot:
+            self.plot_frame.pack_forget()
+
+        self.plot_frame = tk.Frame(self)
+        self.plot_frame.pack(side='top')
+
+        # creating the Tkinter canvas containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(figure,
+                                   master=self.plot_frame)
+        canvas.draw()
+
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+        if self.first_plot:
+            canvas.get_tk_widget().pack()
+        self.first_plot = False
 
 
 class MainView(tk.Frame):
@@ -106,49 +134,3 @@ if __name__ == "__main__":
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("675x650")
     root.mainloop()
-
-# # The main tkinter window
-# window = Tk()
-#
-# # setting the title and
-# window.title('Plotting in Tkinter')
-#
-# # setting the dimensions of
-# # the main window
-# window.geometry("500x500")
-#
-#
-# # button that would display the plot
-# def plot_graph():
-#     figure = graph_normal(0, 1)
-#     canvas = FigureCanvasTkAgg(figure,
-#                                master=window)
-#     # creating the Tkinter canvas
-#     # containing the Matplotlib figure
-#     canvas = FigureCanvasTkAgg(figure,
-#                                master=window)
-#     canvas.draw()
-#
-#     # placing the canvas on the Tkinter window
-#     canvas.get_tk_widget().pack()
-#
-#     # creating the Matplotlib toolbar
-#     toolbar = NavigationToolbar2Tk(canvas,
-#                                    window)
-#     toolbar.update()
-#
-#     # placing the toolbar on the Tkinter window
-#     canvas.get_tk_widget().pack()
-#
-#
-# plot_button = Button(master=window,
-#                      height=2,
-#                      width=10,
-#                      command=plot_graph,
-#                      text="Plot")
-# # place the button
-# # into the window
-# plot_button.pack()
-#
-# # run the gui
-# window.mainloop()
