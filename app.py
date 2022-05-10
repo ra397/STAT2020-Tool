@@ -227,7 +227,7 @@ class nbDist(Page):
         submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot, pady=10, padx=10)
         submit_button.pack(side='left')
 
-        help_button = tk.Button(submit_frame, text="Submit", command=self.help_message, padx=10, pady=10)
+        help_button = tk.Button(submit_frame, text="Help", command=self.help_message, padx=10, pady=10)
         help_button.pack(side='left')
 
     def make_plot(self):
@@ -270,12 +270,74 @@ class nbDist(Page):
 class poisDist(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
+        self.expected_mean = None
+        self.input_mean = None
+        self.first_plot = True
+        self.output_frame = None
+        self.create_widgets()
 
     def create_widgets(self):
-        return
+        title_frame = tk.Frame(self)
+        title_frame.pack(side="top", fill="x", expand=False)
+
+        title = tk.Label(title_frame, text="Negative Binomial Distribution", font=('Arial', 22), pady=20)
+        title.pack()
+
+        input_frame = tk.Frame(self)
+        input_frame.pack(side="top")
+
+        text = tk.Label(input_frame, text="Expected mean = ", font=('Arial', 11), padx=10, pady=10)
+        text.pack(side="left")
+
+        self.input_mean = tk.Entry(input_frame)
+        self.input_mean.pack(side='left')
+
+        submit_frame = tk.Frame(self)
+        submit_frame.pack(side="top")
+
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot, pady=10, padx=10)
+        submit_button.pack(side='left')
+
+        help_button = tk.Button(submit_frame, text="Help", command=self.help_message, padx=10, pady=10)
+        help_button.pack(side='left')
 
     def make_plot(self):
-        return
+        mean = float(self.input_mean.get())
+
+        figure = graph_Pois(mean)
+
+        if not self.first_plot:
+            self.output_frame.pack_forget()
+
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
+
+        # creating the Tkinter canvas containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(figure,
+                                   master=self.output_frame)
+        canvas.draw()
+
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+        if self.first_plot:
+            canvas.get_tk_widget().pack()
+        self.first_plot = False
+
+    def help_message(self):
+        if not self.first_plot:
+            self.output_frame.pack_forget()
+
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
+
+        message = tk.Label(self.output_frame, text='X is the number of occurrences of an event in a fixed time '
+                                                   'interval\n '
+                                                   'where the Expected Mean is the expected number of occurrences of '
+                                                   'that event in the same time interval')
+
+        message.pack()
+        self.first_plot = False
 
 
 class expoDist(Page):

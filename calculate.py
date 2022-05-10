@@ -2,75 +2,27 @@ from math import *
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
+from scipy.stats import binom, nbinom, poisson
 
 
-# x = # of successes
-# n = # of trials
-# p = p(success)
-def Bin(x, n, p):
-    return float(format(pow(p, x) * pow(1 - p, n - x) * (factorial(n) / (factorial(n - x) * factorial(x))), '0.4f'))
-
-
-# specifications: n must be 1-500, p must be 0-1
 def graph_Bin(n, p):
     fig = plt.figure()
-    if n not in range(1, 501):
-        return
-    if p < 0 or p > 1:
-        return
-    # create dataset
-    x_axis = []
-    y_axis = []
-    i = 0
-    while Bin(i, n, p) <= 0:
-        i += 1
-    x_axis.append(i)
-    y_axis.append(Bin(i, n, p))
-    while n - i >= 1 and Bin(i, n, p) > 0:
-        i += 1
-        x_axis.append(i)
-        y_axis.append(Bin(i, n, p))
-    # create graph
-    plt.bar(x_axis, y_axis, color='blue', width=0.4)
+    x = np.arange(binom.ppf(0.01, n, p),
+                  binom.ppf(0.99, n, p))
+    plt.bar(x, binom.pmf(x, n, p))
     plt.xlabel('x (# of successes)')
     plt.ylabel('P(X=x)')
     return fig
 
 
-# x = trial in which you get r(th) success
-# p = p(success)
-def NB(x, r, p):
-    return pow(p, r) * pow(1 - p, x - r) * (factorial(x - 1) / (factorial(r - 1) * factorial(x - r)))
-
-
-# specification: High values of r and low values of p will cause mass inefficiency
 def graph_NB(r, p):
-    fig = plt.figure()
-
-    # create dataset
-    x_axis = []
-    y_axis = []
-    i = r
-    while NB(i, r, p) < 0:
-        i += 1
-    x_axis.append(i)
-    y_axis.append(NB(i, r, p))
-    # IF P is tiny and/or R is large, allow a larger threshold of values to be displayed
-    # if P and R are ordinary inputs, make the threshold smaller
-    if p < 0.1 and r > 10:
-        threshold = 10e-22
-    elif p < 0.1 or r > 10:
-        threshold = 10e-16
-    else:
-        threshold = 10e-6
-    while NB(i, r, p) > threshold:
-        i += 1
-        x_axis.append(i)
-        y_axis.append(NB(i, r, p))
-    # graph dataset
-    plt.bar(x_axis, y_axis, color='blue', width=0.4)
+    fig, ax = plt.subplots()
+    x = np.arange(nbinom.ppf(0.01, r, p),
+                  nbinom.ppf(0.99, r, p))
+    plt.bar(x, nbinom.pmf(x, r, p))
     plt.xlabel('x (trail in which you get rth success)')
     plt.ylabel('P(X=x)')
+    plt.show()
     return fig
 
 
@@ -137,6 +89,3 @@ def graph_normal(mean, variance, critical_point, left=True):
     plt.xlabel('x')
     plt.ylabel('P(X = x)')
     return fig
-
-
-graph_Bin(10, 0.5)
