@@ -280,7 +280,7 @@ class poisDist(Page):
         title_frame = tk.Frame(self)
         title_frame.pack(side="top", fill="x", expand=False)
 
-        title = tk.Label(title_frame, text="Negative Binomial Distribution", font=('Arial', 22), pady=20)
+        title = tk.Label(title_frame, text="Poisson Distribution", font=('Arial', 22), pady=20)
         title.pack()
 
         input_frame = tk.Frame(self)

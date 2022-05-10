@@ -2,7 +2,7 @@ from math import *
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
-from scipy.stats import binom, nbinom, poisson
+from scipy.stats import binom, nbinom
 
 
 def graph_Bin(n, p):
@@ -22,7 +22,6 @@ def graph_NB(r, p):
     plt.bar(x, nbinom.pmf(x, r, p))
     plt.xlabel('x (trail in which you get rth success)')
     plt.ylabel('P(X=x)')
-    plt.show()
     return fig
 
 
