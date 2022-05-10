@@ -26,7 +26,7 @@ class normalDist(Page):
         self.input_sd = None  # entry widget that holds standard deviation
         self.input_x = None  # Entry widget that holds x value
         self.rb_var = tk.IntVar()  # radio button variable
-        self.plot_frame = None  # Frame that holds the plot
+        self.output_frame = None  # Frame that holds the plot
         self.first_plot = True
         self.create_widgets()
 
@@ -86,14 +86,14 @@ class normalDist(Page):
         figure = graph_normal(mean, sd, x, left=choice)
 
         if not self.first_plot:
-            self.plot_frame.pack_forget()
+            self.output_frame.pack_forget()
 
-        self.plot_frame = tk.Frame(self)
-        self.plot_frame.pack(side='top')
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
 
         # creating the Tkinter canvas containing the Matplotlib figure
         canvas = FigureCanvasTkAgg(figure,
-                                   master=self.plot_frame)
+                                   master=self.output_frame)
         canvas.draw()
 
         # placing the canvas on the Tkinter window
@@ -123,13 +123,13 @@ class binDist(Page):
         input_frame = tk.Frame(self)
         input_frame.pack(side="top")
 
-        text_n = tk.Label(input_frame, text="N = ", font=('Arial', 11), padx=10, pady=10)
+        text_n = tk.Label(input_frame, text="Number of trials = ", font=('Arial', 11), padx=10, pady=10)
         text_n.pack(side="left")
 
         self.input_n = tk.Entry(input_frame)
         self.input_n.pack(side="left")
 
-        text_p = tk.Label(input_frame, text="P = ", font=('Arial', 11), padx=10, pady=10)
+        text_p = tk.Label(input_frame, text="Probability of Success = ", font=('Arial', 11), padx=10, pady=10)
         text_p.pack(side="left")
 
         self.input_p = tk.Entry(input_frame)
@@ -138,8 +138,11 @@ class binDist(Page):
         submit_frame = tk.Frame(self)
         submit_frame.pack(side="top")
 
-        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot)
-        submit_button.pack()
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot, padx=10, pady=10)
+        submit_button.pack(side='left')
+
+        help_button = tk.Button(submit_frame, text="Help", command=self.help_message, pady=10, padx=10)
+        help_button.pack(side='left')
 
     def make_plot(self):
         n = float(self.input_n.get())
@@ -165,6 +168,20 @@ class binDist(Page):
             canvas.get_tk_widget().pack()
         self.first_plot = False
 
+    def help_message(self):
+        if not self.first_plot:
+            self.plot_frame.pack_forget()
+
+        self.plot_frame = tk.Frame(self)
+        self.plot_frame.pack(side='top')
+
+        message = tk.Label(self.plot_frame, text='X is the number of times for a specific outcome with N trails \n'
+                                                 '  where P is the probability of success on each trial\n'
+                                                 '      and N is the number of trials')
+
+        message.pack()
+        self.first_plot = False
+
 
 class nbDist(Page):
     def __init__(self, *args, **kwargs):
@@ -172,7 +189,7 @@ class nbDist(Page):
         self.input_r = None
         self.input_p = None
         self.first_plot = True
-        self.plot_frame = None
+        self.output_frame = None
         self.create_widgets()
 
     def create_widgets(self):
@@ -207,8 +224,11 @@ class nbDist(Page):
         submit_frame = tk.Frame(self)
         submit_frame.pack(side="top")
 
-        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot)
-        submit_button.pack()
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot, pady=10, padx=10)
+        submit_button.pack(side='left')
+
+        help_button = tk.Button(submit_frame, text="Submit", command=self.help_message, padx=10, pady=10)
+        help_button.pack(side='left')
 
     def make_plot(self):
         r = float(self.input_r.get())
@@ -217,14 +237,14 @@ class nbDist(Page):
         figure = graph_NB(r, p)
 
         if not self.first_plot:
-            self.plot_frame.pack_forget()
+            self.output_frame.pack_forget()
 
-        self.plot_frame = tk.Frame(self)
-        self.plot_frame.pack(side='top')
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
 
         # creating the Tkinter canvas containing the Matplotlib figure
         canvas = FigureCanvasTkAgg(figure,
-                                   master=self.plot_frame)
+                                   master=self.output_frame)
         canvas.draw()
 
         # placing the canvas on the Tkinter window
@@ -232,6 +252,18 @@ class nbDist(Page):
 
         if self.first_plot:
             canvas.get_tk_widget().pack()
+        self.first_plot = False
+
+    def help_message(self):
+        if not self.first_plot:
+            self.output_frame.pack_forget()
+
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
+
+        message = tk.Label(self.output_frame, text='X is the trial in which you get R successes\n'
+                                                   '  where P is the probability of success for each trial')
+        message.pack()
         self.first_plot = False
 
 
