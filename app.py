@@ -15,8 +15,13 @@ class Page(tk.Frame):
 class MainPage(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
-        label = tk.Label(self, text="Statistics Visualization Tool")
+        label = tk.Label(self, text="Statistics Visualization Tool", font=('Arial', 48))
         label.pack(side="top", fill="both", expand=True)
+        label2 = tk.Label(self, text="•	A desktop application that is designed to help students taking an "
+                                     "introductory\n "
+                                     "statistics course visualize different probability distributions, implemented\n "
+                                     "using Tkinter and Matplotlib", font=('Arial', 12))
+        label2.pack(side="top", fill="both", expand=True)
 
 
 class normalDist(Page):
@@ -25,7 +30,7 @@ class normalDist(Page):
         self.input_mean = None  # entry widget that holds mean value
         self.input_sd = None  # entry widget that holds standard deviation
         self.input_x = None  # Entry widget that holds x value
-        self.rb_var = tk.IntVar()  # radio button variable
+        self.rb_var = tk.IntVar(self, 1)  # radio button variable
         self.output_frame = None  # Frame that holds the plot
         self.first_plot = True
         self.create_widgets()
@@ -61,11 +66,11 @@ class normalDist(Page):
         rb_frame = tk.Frame(self)
         rb_frame.pack(side="top")
 
-        rb1 = tk.Radiobutton(rb_frame, text='Area to the left of X', variable=self.rb_var, value=1)
+        rb1 = tk.Radiobutton(rb_frame, text='Area to the left of X', variable=self.rb_var, value=0)
         rb1.select()
         rb1.pack(side="left")
 
-        rb2 = tk.Radiobutton(rb_frame, text='Area to the right of X', variable=self.rb_var, value=2)
+        rb2 = tk.Radiobutton(rb_frame, text='Area to the right of X', variable=self.rb_var, value=1)
         rb2.pack(side="left")
 
         submit_frame = tk.Frame(self)
@@ -78,11 +83,10 @@ class normalDist(Page):
         mean = float(self.input_mean.get())
         sd = float(self.input_sd.get())
         x = float(self.input_x.get())
-        if self.rb_var == 0:
-            choice = False
-        else:
+        if self.rb_var.get() == 0:
             choice = True
-
+        else:
+            choice = False
         figure = graph_normal(mean, sd, x, left=choice)
 
         if not self.first_plot:
@@ -343,12 +347,70 @@ class poisDist(Page):
 class expoDist(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
+        self.input_mean = None
+        self.output_frame = None
+        self.first_plot = True
+        self.create_widgets()
 
     def create_widgets(self):
-        return
+        title_frame = tk.Frame(self)
+        title_frame.pack(side="top", fill="x", expand=False)
+
+        title = tk.Label(title_frame, text="Exponential Distribution", font=('Arial', 22), pady=20)
+        title.pack()
+
+        input_frame = tk.Frame(self)
+        input_frame.pack(side="top")
+
+        text = tk.Label(input_frame, text="Mean = ", font=('Arial', 11), padx=10, pady=10)
+        text.pack(side="left")
+
+        self.input_mean = tk.Entry(input_frame)
+        self.input_mean.pack(side='left')
+
+        submit_frame = tk.Frame(self)
+        submit_frame.pack(side="top")
+
+        submit_button = tk.Button(submit_frame, text="Submit", command=self.make_plot, pady=10, padx=10)
+        submit_button.pack(side='left')
+
+        help_button = tk.Button(submit_frame, text="Help", command=self.help_message, padx=10, pady=10)
+        help_button.pack(side='left')
 
     def make_plot(self):
-        return
+        mean = float(self.input_mean.get())
+
+        figure = graph_exponential(mean)
+
+        if not self.first_plot:
+            self.output_frame.pack_forget()
+
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
+
+        # creating the Tkinter canvas containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(figure,
+                                   master=self.output_frame)
+        canvas.draw()
+
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+        if self.first_plot:
+            canvas.get_tk_widget().pack()
+        self.first_plot = False
+
+    def help_message(self):
+        if not self.first_plot:
+            self.output_frame.pack_forget()
+
+        self.output_frame = tk.Frame(self)
+        self.output_frame.pack(side='top')
+
+        message = tk.Label(self.output_frame, text='This is the probability distribution of times between events in a '
+                                                   'Poisson process')
+        message.pack()
+        self.first_plot = False
 
 
 class MainView(tk.Frame):

@@ -67,7 +67,10 @@ def graph_exponential(mean):
         i += 1
     # create dataset
     x = np.linspace(0, i)
-    plt.plot(x, exponential(x, mean))
+    y = []
+    for each_val in x:
+        y.append(exponential(each_val, mean))
+    plt.plot(x, y)
     plt.xlabel('x')
     plt.ylabel('P(X=x)')
     return fig
